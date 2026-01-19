@@ -94,7 +94,7 @@
 //]
 
 = Schutzmaßnahmen
-    
+
 == Routing
 // https://signal.org/blog/sealed-sender/
 #sources[
@@ -122,7 +122,7 @@
 #image("assets/Notification.jpeg", height: 1fr) // https://community.home-assistant.io/t/use-signal-messenger-for-notifications/80214/14
 */
 
-#align(center)[ #seq-diagram({ let c = text.with(14pt) 
+#align(center)[ #seq-diagram({ let c = text.with(14pt)
 let _seq = _seq.with(comment-align: "center")
 
 _par("Sender")
@@ -131,19 +131,19 @@ _par("Push Service")
 _par("Empfänger")
 
 // Step 1: Sending the encrypted message
-_seq("Sender", "Signal Server", 
+_seq("Sender", "Signal Server",
     comment: c[Verschlüsselte Nachricht]
 )
 
 _gap(size: 10)
 
 // Step 2: Server pings the Push Service
-_seq("Signal Server", "Push Service", 
+_seq("Signal Server", "Push Service",
     comment: c[Leerer Ping]
 )
 
 // Step 3: Push Service wakes up the device
-_seq("Push Service", "Empfänger", 
+_seq("Push Service", "Empfänger",
     comment: c["Wake-Up" / Push Event],
     dashed: true
 )
@@ -151,24 +151,24 @@ _seq("Push Service", "Empfänger",
 _gap(size: 10)
 
 // Step 4: App connects to Server to fetch content
-_seq("Empfänger", "Signal Server", 
+_seq("Empfänger", "Signal Server",
     comment: c[Datenabruf]
 )
 
 // Step 5: Server delivers encrypted content
-_seq("Signal Server", "Empfänger", 
+_seq("Signal Server", "Empfänger",
     comment: c[Verschlüsselter Inhalt],
     dashed: true
 )
 
 // Step 6: Local processing
-_seq("Empfänger", "Empfänger", 
+_seq("Empfänger", "Empfänger",
     comment: c[Entschlüsselung],
     comment-align: "left"
 )
 
 // Step 7: Local display
-_seq("Empfänger", "Empfänger", 
+_seq("Empfänger", "Empfänger",
     comment: c[Anzeige Benachrichtigung],
     comment-align: "left"
 )
@@ -316,25 +316,25 @@ _seq("Empfänger", "Empfänger",
     inset: 10pt,
     align: horizon,
     fill: (col, row) => if row == 0 { luma(230) } else { white },
-    
+
     // Header
     [*Bezeichnung*], [*Symbol*], [*Beschreibung*],
-    
+
     // Rows
-    [Identitätsschlüssel], 
-    [$"IK"_A, "IK"_B$], 
+    [Identitätsschlüssel],
+    [$"IK"_A, "IK"_B$],
     [Langzeitschlüssel],
 
-    [Ephemerer Schlüssel], 
-    [$"EK"_A$], 
+    [Ephemerer Schlüssel],
+    [$"EK"_A$],
     [Wird für einen einzelnen Durchlauf generiert],
 
-    [Signierter Prekey], 
-    [$"SPK"_B$], 
+    [Signierter Prekey],
+    [$"SPK"_B$],
     [Wird von Bob periodisch aktualisiert],
 
-    [Einmal-Prekey], 
-    [$"OPK"_B$], 
+    [Einmal-Prekey],
+    [$"OPK"_B$],
     [Wird einmalig verwendet und dann gelöscht],
   ),
 )
@@ -376,14 +376,6 @@ _seq("Empfänger", "Empfänger",
 
 = Verschlüsselung – Double Ratchet
 
-== Warum wird diese benötigt?
-#sources[
-  @noauthor_signal_nodate-1
-]
-- *Ende-zu-Ende-Sicherheit*: Vertraulichkeit zwischen zwei Parteien
-- *Forward Secrecy*: Schutz vergangener Nachrichten bei Schlüsseldiebstahl
-- *Post-Compromise Security*: Automatische "Selbstheilung" nach Kompromittierung
-
 == Warum der Name "Ratchet" (Ratsche)?
 - *Einweg-Prinzip*: Bewegung nur vorwärts (wie mechanische Ratsche)
 - *Unumkehrbarkeit*: Keine Rückrechnung auf alte Schlüssel möglich
@@ -402,6 +394,14 @@ Kombination zweier Mechanismen:
 2. *Symmetrische Ratchet (KDF)*:
   - Auslösung pro Nachricht
   - Schnelle Generierung neuer Schlüssel
+
+  == Warum wird diese benötigt?
+  #sources[
+    @noauthor_signal_nodate-1
+  ]
+  - *Ende-zu-Ende-Sicherheit*: Vertraulichkeit zwischen zwei Parteien
+  - *Forward Secrecy*: Schutz vergangener Nachrichten bei Schlüsseldiebstahl
+  - *Post-Compromise Security*: Automatische "Selbstheilung" nach Kompromittierung
 
 == KDF-Ketten (Key Derivation Function)
 #align(center)[#image("assets/double_ratchet/Set0_0.png", height:84%)]
@@ -445,7 +445,7 @@ Kombination zweier Mechanismen:
   rows: 1.9em,
   align: left + horizon,
   inset: (x: 7pt, y: 8pt),
-  stroke: (x, y) => 
+  stroke: (x, y) =>
   if x < 2 and y == 0 {
     (
       paint: black,
@@ -491,7 +491,7 @@ Kombination zweier Mechanismen:
   @chase_signal_2019
 ]
 - Problem: Server soll Gruppenmetadaten (Mitgliederliste, Beschreibung, Bild, usw.) nicht lesen und schreiben können
-- früher: jeder Nutzer verwaltet lokal Gruppenmetadaten 
+- früher: jeder Nutzer verwaltet lokal Gruppenmetadaten
 - heute: Gruppenmetadaten liegen verschlüsselt auf dem Server mit geteiltem Schlüssel #sym.arrow *GroupMasterKey*
 - Gruppennachrichten werden Peer-to-peer verschlüsselt und versendet
 - *Wie kann Server Veränderungen der Gruppenmetadaten authentifizieren?*
@@ -511,7 +511,7 @@ Kombination zweier Mechanismen:
 
 - User kann mit AuthCredential und eigener UID verschlüsselten GroupMemberEntry wieder erzeugen #sym.arrow Authentifizierung
 
-== Beispiel: Gruppe erstellen  
+== Beispiel: Gruppe erstellen
 
 #align(center)[
   #seq-diagram({
