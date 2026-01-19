@@ -73,7 +73,6 @@
 + Sessionverwaltung
 + Verschlüsselung
 + Gruppenchats
-+ Anwendungsbeispiel
 
 #v(1fr)
 
@@ -376,17 +375,23 @@ _seq("Empfänger", "Empfänger",
 
 = Verschlüsselung – Double Ratchet
 
-== Warum der Name "Ratchet" (Ratsche)?
-- *Einweg-Prinzip*: Bewegung nur vorwärts (wie mechanische Ratsche)
-- *Unumkehrbarkeit*: Keine Rückrechnung auf alte Schlüssel möglich
-- *Sofortige Löschung*: Nachrichtenschlüssel werden nach Gebrauch vernichtet
-#align(center)[#image("assets/double_ratchet/Ratchet_rotation_prevented.jpg", height:45%)]
-//https://www.notesandsketches.co.uk/images/Ratchet_rotation_prevented.jpg
-#sources[
-  @noauthor_mechanisms_nodate
+==  Warum der Name \"Ratchet\" (Ratsche)?
+#slide[
+    - *Einweg-Prinzip*: Bewegung nur vorwärts (wie mechanische Ratsche)
+    - *Unumkehrbarkeit*: Keine Rückrechnung auf alte Schlüssel möglich
+    - *Sofortige Löschung*: Nachrichtenschlüssel werden nach Gebrauch vernichtet
+
+    #align(center)[
+        #image("assets/double_ratchet/Ratchet_rotation_prevented.jpg", height:45%)
+    ]
+
+    #sources[
+        @noauthor_mechanisms_nodate
+    ]
 ]
 
-== Warum "Double" (Doppel)?
+== Warum \"Double\" (Doppel)?
+#slide[
 Kombination zweier Mechanismen:
 1. *Diffie-Hellman-Ratchet*:
   - Auslösung bei Generierung neuer privater Schlüssel
@@ -394,14 +399,18 @@ Kombination zweier Mechanismen:
 2. *Symmetrische Ratchet (KDF)*:
   - Auslösung pro Nachricht
   - Schnelle Generierung neuer Schlüssel
+]
 
-  == Warum wird diese benötigt?
-  #sources[
-    @noauthor_signal_nodate-1
-  ]
+
+== Warum wird diese benötigt?
+#slide[
   - *Ende-zu-Ende-Sicherheit*: Vertraulichkeit zwischen zwei Parteien
   - *Forward Secrecy*: Schutz vergangener Nachrichten bei Schlüsseldiebstahl
   - *Post-Compromise Security*: Automatische "Selbstheilung" nach Kompromittierung
+  #sources[
+    @noauthor_signal_nodate-1
+  ]
+]
 
 == KDF-Ketten (Key Derivation Function)
 #align(center)[#image("assets/double_ratchet/Set0_0.png", height:84%)]
